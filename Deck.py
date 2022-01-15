@@ -41,7 +41,6 @@ class Deck:
             card_dict[card_suit][card_num] = 1
 
         df = pd.DataFrame(card_dict)
-        print(df)
         return df
 
         #index = [i for i in range(1, 14)]
