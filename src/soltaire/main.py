@@ -1,5 +1,6 @@
-from Card import Card
-from Deck import Deck
+"""Main entry point for Soltaire."""
+
+from soltaire.deck import Deck
 
 
 def main():
@@ -8,5 +9,6 @@ def main():
     current_cards = my_deck.view_cards()
     print(current_cards)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
