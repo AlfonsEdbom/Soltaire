@@ -1,19 +1,18 @@
 [project]
 name = "soltaire"
 version = "0.1.0"
-description = ""
-authors = [
-    {name = "Alfons",email = "alfons@live.com"}
-]
+description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "pandas (>=2.3.1,<3.0.0)"
+    "pandas>=2.3.1",
+    "pyqt6>=6.9.1",
 ]
 
-[project.scripts]
-soltaire = "soltaire.main:main"
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
 
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.pytest.ini_options]
+pythonpath = "src"
