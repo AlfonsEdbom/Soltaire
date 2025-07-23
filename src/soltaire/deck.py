@@ -1,8 +1,10 @@
 """Deck class implementation."""
 
-from soltaire.card import Card
 import random
+
 import pandas as pd
+
+from soltaire.card import Card
 
 
 class Deck:
@@ -10,7 +12,7 @@ class Deck:
         self.cards = []
 
     def create(self):
-        suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+        suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
         for i in range(1, 14):
             for suit in suits:
                 self.cards.append(Card(i, suit))
@@ -26,12 +28,8 @@ class Deck:
 
     def view_cards(self):
         card_dict = {}
-        for suit in ['Hearts', 'Diamonds', 'Clubs', 'Spades']:
-            num_dict = {str(i):0 for i in range(2,11)}
-            num_dict['Jack'] = 0
-            num_dict['Queen'] = 0
-            num_dict['King'] = 0
-            num_dict['Ace'] = 0
+        for suit in ["Hearts", "Diamonds", "Clubs", "Spades"]:
+            num_dict = {str(i): 0 for i in range(1, 14)}
             card_dict[suit] = num_dict
 
         for card in self.cards:
@@ -48,5 +46,5 @@ class Deck:
     def __str__(self):
         return_string = "The deck contains these cards: \n"
         for card in self.cards:
-            return_string += (f"{card} \n")
+            return_string += f"{card} \n"
         return return_string
