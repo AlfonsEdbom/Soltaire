@@ -13,3 +13,8 @@ class Card:
             raise TypeError(
                 "Suit must be of type: 'Hearts', 'Diamonds', 'Clubs, 'Spades'"
             )
+
+    def __eq__(self, other):
+        if not isinstance(other, Card):
+            return NotImplemented
+        return self.number == other.number and self.suit == other.suit
