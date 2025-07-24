@@ -2,9 +2,9 @@
 
 import pytest
 
-from soltaire.card import Card
-from soltaire.hand import Hand
-from soltaire.waste import Waste
+from soltaire.core.card import Card
+from soltaire.core.hand import Hand
+from soltaire.core.waste import Waste
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 """Common rules and validations for Solitaire card movements."""
 
-from soltaire.card import Card
+from .card import Card
 
 
 def is_red_suit(suit: str) -> bool:

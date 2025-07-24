@@ -14,6 +14,11 @@ class Card:
                 "Suit must be of type: 'Hearts', 'Diamonds', 'Clubs, 'Spades'"
             )
 
+    def __str__(self):
+        face_cards = {1: "Ace", 11: "Jack", 12: "Queen", 13: "King"}
+        card_value = face_cards.get(self.number, str(self.number))
+        return f"{card_value} of {self.suit}"
+
     def __eq__(self, other):
         if not isinstance(other, Card):
             return NotImplemented

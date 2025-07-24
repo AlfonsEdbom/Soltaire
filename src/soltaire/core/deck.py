@@ -4,7 +4,7 @@ import random
 
 import pandas as pd
 
-from soltaire.card import Card
+from .card import Card
 
 
 class Deck:

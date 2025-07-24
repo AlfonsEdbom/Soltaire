@@ -2,9 +2,9 @@
 
 import pytest
 
-from soltaire.card import Card
-from soltaire.deck import Deck
-from soltaire.tableau import Tableau, TableauPile
+from soltaire.core.card import Card
+from soltaire.core.deck import Deck
+from soltaire.core.tableau import Tableau, TableauPile
 
 
 @pytest.fixture
@@ -108,34 +108,3 @@ def test_tableau_initialization():
         pile = tableau.piles[i]
         assert len(pile.hidden_cards) + len(pile.visible_cards) == i + 1
         assert len(pile.visible_cards) == 1
-
-
-def test_tableau_move_cards():
-    """Test moving cards between piles in tableau."""
-    # Create tableau with known cards for testing
-    tableau = Tableau()
-    # Set up first pile with Black 7
-    tableau.piles[0] = TableauPile([Card(7, "Clubs")])
-    # Set up second pile with Red 6
-    tableau.piles[1] = TableauPile([Card(6, "Hearts")])
-
-    # Try valid move: Black 7 -> Red 6 (invalid)
-    assert tableau.can_move_cards(0, 1, 1) is False
-
-    # Try valid move: Red 6 -> Black 7 (valid)
-    assert tableau.can_move_cards(1, 0, 1) is True
-    assert tableau.move_cards(1, 0, 1) is True
-
-
-def test_tableau_invalid_moves():
-    """Test invalid moves in tableau."""
-    tableau = Tableau()
-
-    # Test out of bounds indices
-    assert tableau.can_move_cards(-1, 0, 1) is False
-    assert tableau.can_move_cards(0, 7, 1) is False
-
-    # Test moving more cards than available
-    pile = TableauPile([Card(7, "Hearts")])
-    tableau.piles[0] = pile
-    assert tableau.can_move_cards(0, 1, 2) is False

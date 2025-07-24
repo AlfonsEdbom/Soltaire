@@ -1,6 +1,6 @@
 """Main entry point for Soltaire."""
 
-from soltaire.deck import Deck
+from soltaire.core.deck import Deck
 
 
 def main():

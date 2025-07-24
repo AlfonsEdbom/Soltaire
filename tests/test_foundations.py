@@ -2,8 +2,8 @@
 
 import pytest
 
-from soltaire.card import Card
-from soltaire.foundations import Foundations, InvalidFoundationMoveError
+from soltaire.core.card import Card
+from soltaire.core.foundations import Foundations, InvalidFoundationMoveError
 
 
 @pytest.fixture

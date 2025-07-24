@@ -2,7 +2,7 @@
 
 import pytest
 
-from soltaire.card import Card
+from soltaire.core.card import Card
 
 
 def test_card_creation():

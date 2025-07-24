@@ -2,8 +2,8 @@
 
 from typing import Dict, Optional
 
-from soltaire.card import Card
-from soltaire.game_rules import (
+from .card import Card
+from .game_rules import (
     is_descending,
     is_different_color,
     is_valid_foundation_move,

@@ -2,8 +2,8 @@
 
 import pytest
 
-from soltaire.card import Card
-from soltaire.waste import EmptyWasteError, Waste
+from soltaire.core.card import Card
+from soltaire.core.waste import EmptyWasteError, Waste
 
 
 @pytest.fixture

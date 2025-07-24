@@ -1,6 +1,6 @@
 """Implementation of the Solitaire waste pile."""
 
-from soltaire.card import Card
+from .card import Card
 
 
 class EmptyWasteError(Exception):
@@ -63,4 +63,4 @@ class Waste:
 
     def __str__(self) -> str:
         visible = self.get_visible_cards()
-        return f"Waste: {' '.join(str(card) for card in visible)}"
+        return f"Waste: {', '.join(str(card) for card in visible)}"

@@ -2,8 +2,8 @@
 
 import pytest
 
-from soltaire.card import Card
-from soltaire.deck import Deck
+from soltaire.core.card import Card
+from soltaire.core.deck import Deck
 
 
 @pytest.fixture

@@ -1,7 +1,7 @@
 """Tests for game rules module."""
 
-from soltaire.card import Card
-from soltaire.game_rules import (
+from soltaire.core.card import Card
+from soltaire.core.game_rules import (
     is_ascending,
     is_descending,
     is_different_color,

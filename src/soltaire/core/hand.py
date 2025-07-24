@@ -1,6 +1,6 @@
 """Implementation of the Solitaire hand (draw pile)."""
 
-from soltaire.card import Card
+from .card import Card
 
 
 class Hand:
