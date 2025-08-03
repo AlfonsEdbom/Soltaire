@@ -17,8 +17,8 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from soltaire.card import Card
-from soltaire.core import Game
+from soltaire.core.card import Card
+from soltaire.core.game_logic import Game
 
 
 class CardWidget(QLabel):
