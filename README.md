@@ -1,12 +1,33 @@
 # Soltaire
 
-> [!NOTE]
-> Highlights information that users should take into account, even when skimming.
-> 
-> This is yet another line of important information that needs to be highlighted by the viewed, even when they are just skimming through the README very quickly
+A Python implementation of Klondike Solitaire with both a CLI and a PyQt6 GUI. The project serves as a platform to experiment with different AI approaches to solving the game.
 
-> [!IMPORTANT]
-> Crucial information necessary for users to succeed.
+## Prerequisites
 
-> [!WARNING]
-> Critical content demanding immediate user attention due to potential risks.
+[uv](https://docs.astral.sh/uv/getting-started/installation/) must be installed.
+
+## Setup
+
+```bash
+git clone <repo-url>
+cd Soltaire
+uv sync
+```
+
+`uv sync` creates a `.venv` and installs all dependencies (including dev tools) from the lock file.
+
+## Running
+
+```bash
+# CLI
+uv run python -m soltaire.cli
+
+# GUI
+uv run python -m soltaire.gui
+```
+
+## Tests
+
+```bash
+uv run pytest
+```
