@@ -3,8 +3,9 @@
 import sys
 from pathlib import Path
 
-from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtGui import QAction, QPixmap
+from PyQt6.QtCore import QRectF, Qt
+from PyQt6.QtGui import QAction, QPainter, QPixmap
+from PyQt6.QtSvg import QSvgRenderer
 from PyQt6.QtWidgets import (
     QApplication,
     QHBoxLayout,
@@ -20,30 +21,46 @@ from PyQt6.QtWidgets import (
 from soltaire.core.card import Card
 from soltaire.core.game_logic import Game
 
+CARD_W, CARD_H = 71, 96
+
+_SUIT_TO_SVG = {
+    "Hearts": "heart",
+    "Diamonds": "diamond",
+    "Clubs": "club",
+    "Spades": "spade",
+}
+_NUM_TO_SVG = {
+    1: "1", 2: "2", 3: "3", 4: "4", 5: "5",
+    6: "6", 7: "7", 8: "8", 9: "9", 10: "10",
+    11: "jack", 12: "queen", 13: "king",
+}
+
 
 class CardWidget(QLabel):
-    """Widget representing a playing card."""
+    """Widget representing a playing card, rendered from an SVG deck."""
 
-    def __init__(self, card: Card, parent=None):
+    def __init__(self, card: Card, renderer: QSvgRenderer, parent=None):
         super().__init__(parent)
         self.card = card
-        self.load_image()
+        self._render(renderer)
 
-    def load_image(self):
-        """Load the card's image."""
-        # Assuming card images are named like "1_hearts.png", "13_spades.png" etc.
-        image_path = (
-            Path(__file__).parent.parent.parent
-            / "cards"
-            / f"{self.card.number}_{self.card.suit.lower()}.png"
-        )
-        pixmap = QPixmap(str(image_path))
-        self.setPixmap(pixmap.scaled(QSize(71, 96), Qt.AspectRatioMode.KeepAspectRatio))
+    def _element_id(self) -> str:
+        return f"{_SUIT_TO_SVG[self.card.suit]}_{_NUM_TO_SVG[self.card.number]}"
+
+    def _render(self, renderer: QSvgRenderer) -> None:
+        pixmap = QPixmap(CARD_W, CARD_H)
+        pixmap.fill(Qt.GlobalColor.transparent)
+        painter = QPainter(pixmap)
+        renderer.render(painter, self._element_id(), QRectF(0, 0, CARD_W, CARD_H))
+        painter.end()
+        self.setPixmap(pixmap)
 
     def mousePressEvent(self, event):
-        """Handle mouse press for drag and drop."""
         if event.button() == Qt.MouseButton.LeftButton:
-            # TODO: Implement proper drag and drop
+            # TODO: Implement drag-and-drop.
+            # Approach: create a QDrag with QMimeData encoding the source pile index
+            # and card position. The drop target calls the appropriate game.move_*
+            # method then triggers update_display().
             pass
 
 
@@ -55,11 +72,12 @@ class SolitaireGUI(QMainWindow):
         self.setWindowTitle("Solitaire")
         self.setMinimumSize(800, 600)
 
-        # Initialize game logic (Model)
         self.game = Game()
-        self.update_in_progress = (
-            False  # Flag to prevent update loops        # Set up the UI
-        )
+        self.update_in_progress = False
+
+        svg_path = Path(__file__).parent / "cards.svg"
+        self._renderer = QSvgRenderer(str(svg_path))
+
         self.setup_ui()
 
     def setup_ui(self):
@@ -76,7 +94,7 @@ class SolitaireGUI(QMainWindow):
         foundation_widget = QWidget()
         foundation_layout = QHBoxLayout(foundation_widget)
         for suit in ["Hearts", "Diamonds", "Clubs", "Spades"]:
-            pile = QLabel("[ ]")  # Empty foundation pile
+            pile = QLabel("[ ]")  # TODO: replace with CardWidget or empty-pile placeholder; populate in update_display()
             foundation_layout.addWidget(pile)
         top_row.addWidget(foundation_widget)
 
@@ -96,7 +114,7 @@ class SolitaireGUI(QMainWindow):
         tableau_widget = QWidget()
         tableau_layout = QHBoxLayout(tableau_widget)
         for i in range(7):
-            pile = QLabel(f"Pile {i + 1}")
+            pile = QLabel(f"Pile {i + 1}")  # TODO: replace with stacked column of CardWidgets; populate in update_display()
             tableau_layout.addWidget(pile)
         layout.addWidget(tableau_widget)
 
@@ -108,18 +126,15 @@ class SolitaireGUI(QMainWindow):
         menu_bar = QMenuBar(self)
         self.setMenuBar(menu_bar)
 
-        # Game menu
         game_menu = QMenu("&Game", self)
         menu_bar.addMenu(game_menu)
 
-        # New game action
         new_game_action = QAction("&New Game", self)
         new_game_action.triggered.connect(self.new_game)
         game_menu.addAction(new_game_action)
 
         game_menu.addSeparator()
 
-        # Quit action
         quit_action = QAction("&Quit", self)
         quit_action.triggered.connect(self.close)
         game_menu.addAction(quit_action)
@@ -136,7 +151,19 @@ class SolitaireGUI(QMainWindow):
 
     def update_display(self):
         """Update all UI elements to match game state."""
-        # Implementation needed
+        # TODO: Implement full board refresh:
+        #   1. Clear placeholder labels from foundation and tableau layouts.
+        #   2. For each foundation suit, show top card or empty placeholder.
+        #   3. For waste, show top 1–3 visible cards.
+        #   4. For each tableau pile, render hidden_count face-down placeholders
+        #      (use self._renderer.render(painter, "back", rect)) + one CardWidget
+        #      per visible card (partially overlapping).
+        #   5. Update hand button label with remaining card count.
+        #   Game API (all readable, no side effects):
+        #     self.game.foundations.piles, self.game.waste.cards,
+        #     self.game.tableau.piles[i].visible_cards,
+        #     self.game.tableau.piles[i].hidden_cards, self.game.hand.cards
+        #   Create CardWidget instances as: CardWidget(card, self._renderer)
         pass
 
 
