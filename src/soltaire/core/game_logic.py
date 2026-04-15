@@ -91,6 +91,20 @@ class Game:
             pass
         return False
 
+    def move_foundation_to_tableau(self, suit: str, tableau_pile: int) -> bool:
+        """Try to move the top card of a foundation pile to a tableau pile."""
+        try:
+            card = self.foundations.peek_top_card(suit)
+            if card is None:
+                return False
+            if self.tableau.can_add_card_to_pile(card, tableau_pile):
+                self.foundations.piles[suit].pop()
+                self.tableau.add_card_to_pile(card, tableau_pile)
+                return True
+        except Exception:
+            pass
+        return False
+
     def move_tableau_to_tableau(self, from_pile: int, to_pile: int, count: int) -> bool:
         """Try to move cards between tableau piles."""
         try:
